@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "0073b066-43a7-4ea9-bb2d-37dc4889978f",
+		"name": "week2.day1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2257080"
+	},
+	"item": [
+		{
+			"name": "get-a-single-record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has OK\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"// This Local Variable\r",
+							"var a = 20;\r",
+							"console.log(a);\r",
+							"\r",
+							"console.log(pm.globals.get(\"protocol\"));\r",
+							"console.log(pm.environment.get(\"baseUrl\"));\r",
+							"console.log(pm.collectionVariables.get(\"tableName\"));\r",
+							"//console.log(pm.variables.get(\"collection_a\"));"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName/:sysID",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{basePath}}",
+						":tableName",
+						":sysID"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						},
+						{
+							"key": "sysID",
+							"value": "{{sys_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-a-new-record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has Created\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 5000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response is json or not', function (){\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Create a new record and store value in variable\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{basePath}}",
+						":tableName"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-a-new-record-from-csv",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has Created\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 5000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response is json or not', function (){\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
+							"});\r",
+							"\r",
+							"console.log(pm.iterationData.get(\"shortDescription\"));\r",
+							"console.log(pm.iterationData.get(\"description\"));\r",
+							"console.log(pm.iterationData.get(\"category\"));\r",
+							"pm.iterationData.set(\"sys_id\", \"9809790r7hnvnvsdlq3ru0qr\");"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"category\": \"{{category}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{basePath}}",
+						":tableName"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-a-new-record-from-json",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has Created\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 5000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response is json or not', function (){\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{basePath}}",
+						":tableName"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// This Local Variable\r",
+					"var collection_a = 10;\r",
+					"console.log(collection_a);"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "basePath",
+			"value": ""
+		},
+		{
+			"key": "tableName",
+			"value": ""
+		},
+		{
+			"key": "sys_id",
+			"value": ""
+		}
+	]
+}

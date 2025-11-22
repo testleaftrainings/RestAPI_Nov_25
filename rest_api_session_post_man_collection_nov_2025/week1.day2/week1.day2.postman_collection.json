@@ -42,12 +42,12 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "e5!pRsPN%lH5",
+							"value": "{{password}}",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "admin",
+							"value": "{{username}}",
 							"type": "string"
 						}
 					]
@@ -55,12 +55,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://dev324941.service-now.com/api/now/table/incident",
-					"protocol": "https",
+					"raw": "{{protocol}}://{{baseUrl}}/api/now/table/incident",
+					"protocol": "{{protocol}}",
 					"host": [
-						"dev324941",
-						"service-now",
-						"com"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
@@ -338,7 +336,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://dev324941.service-now.com/api/now/table/:tableName?category=hardware",
+					"raw": "https://dev324941.service-now.com/api/now/table/:tableName?category=hardware&sysparm_fields=sys_id,number,short_description,description,category&sysparm_limit=3",
 					"protocol": "https",
 					"host": [
 						"dev324941",
@@ -355,6 +353,14 @@
 						{
 							"key": "category",
 							"value": "hardware"
+						},
+						{
+							"key": "sysparm_fields",
+							"value": "sys_id,number,short_description,description,category"
+						},
+						{
+							"key": "sysparm_limit",
+							"value": "3"
 						}
 					],
 					"variable": [
