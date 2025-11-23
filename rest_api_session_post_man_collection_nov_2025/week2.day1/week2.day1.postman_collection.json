@@ -7,6 +7,178 @@
 	},
 	"item": [
 		{
+			"name": "csv-data",
+			"item": [
+				{
+					"name": "create-a-new-record-from-csv",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has Created\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 5000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is json or not', function (){\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
+									"});\r",
+									"\r",
+									"console.log(pm.iterationData.get(\"shortDescription\"));\r",
+									"console.log(pm.iterationData.get(\"description\"));\r",
+									"console.log(pm.iterationData.get(\"category\"));\r",
+									"pm.iterationData.set(\"sys_id\", \"9809790r7hnvnvsdlq3ru0qr\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"category\": \"{{category}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{basePath}}",
+								":tableName"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "{{tableName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "json-data",
+			"item": [
+				{
+					"name": "create-a-new-record-from-json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has Created\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 5000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is json or not', function (){\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{basePath}}",
+								":tableName"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "{{tableName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "get-a-single-record",
 			"event": [
 				{
@@ -157,168 +329,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "create-a-new-record-from-csv",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Status code name has Created\", function () {\r",
-							"    pm.response.to.have.status(\"Created\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response time is less than 5000ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
-							"});\r",
-							"\r",
-							"pm.test('Response is json or not', function (){\r",
-							"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
-							"});\r",
-							"\r",
-							"console.log(pm.iterationData.get(\"shortDescription\"));\r",
-							"console.log(pm.iterationData.get(\"description\"));\r",
-							"console.log(pm.iterationData.get(\"category\"));\r",
-							"pm.iterationData.set(\"sys_id\", \"9809790r7hnvnvsdlq3ru0qr\");"
-						],
-						"type": "text/javascript",
-						"packages": {},
-						"requests": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "{{password}}",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "{{username}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"category\": \"{{category}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"{{basePath}}",
-						":tableName"
-					],
-					"variable": [
-						{
-							"key": "tableName",
-							"value": "{{tableName}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create-a-new-record-from-json",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Status code name has Created\", function () {\r",
-							"    pm.response.to.have.status(\"Created\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response time is less than 5000ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
-							"});\r",
-							"\r",
-							"pm.test('Response is json or not', function (){\r",
-							"    pm.expect(pm.response.headers.get('Content-Type')).to.contains('application/json');\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.collectionVariables.set(\"sys_id\", jsonData.result.sys_id);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {},
-						"requests": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "{{password}}",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "{{username}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{protocol}}://{{baseUrl}}/{{basePath}}/:tableName",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"{{basePath}}",
-						":tableName"
-					],
-					"variable": [
-						{
-							"key": "tableName",
-							"value": "{{tableName}}"
-						}
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -350,15 +360,15 @@
 	"variable": [
 		{
 			"key": "basePath",
-			"value": ""
+			"value": "api/now/table"
 		},
 		{
 			"key": "tableName",
-			"value": ""
+			"value": "incident"
 		},
 		{
 			"key": "sys_id",
-			"value": ""
+			"value": "37189f6a8315fa10ac835c65eeaad3dd"
 		}
 	]
 }

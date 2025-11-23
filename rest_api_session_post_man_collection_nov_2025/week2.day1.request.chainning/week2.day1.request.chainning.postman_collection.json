@@ -58,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"short_description\": \"Create a new record and store value in variable\"\r\n}",
+					"raw": "{\r\n    \"short_description\": \"{{shortDescription}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -389,11 +389,11 @@
 	"variable": [
 		{
 			"key": "basePath",
-			"value": ""
+			"value": "api/now/table"
 		},
 		{
 			"key": "tableName",
-			"value": ""
+			"value": "incident"
 		},
 		{
 			"key": "sysId",
