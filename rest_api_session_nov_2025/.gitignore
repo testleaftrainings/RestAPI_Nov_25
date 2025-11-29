@@ -1,0 +1,12 @@
+.classpath
+.project
+.settings/
+target/
+test-output/
+cucumber-reports/
+package-lock.json
+node_modules/
+cucumber-report/
+allure-report/
+allure-results/
+.allure/
