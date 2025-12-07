@@ -1,0 +1,17 @@
+{
+  "name": "matschie",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "npx allure generate allure-results --clean",
+    "publish": "npx allure serve"
+  },
+  "devDependencies": {
+    "allure-commandline": "^2.34.1"
+  }
+}

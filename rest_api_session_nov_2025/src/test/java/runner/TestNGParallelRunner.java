@@ -6,7 +6,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-		         features = {"src/test/java/features/incident.feature"},
+		         features = {"src/test/java/features/incident.feature:9"},
 		         glue = {"step.defs"},
 		         dryRun = false,
 		         plugin = {
@@ -16,7 +16,7 @@ import io.cucumber.testng.CucumberOptions;
 		         publish = false,
 		         tags = ""
 		        )
-public class TestNGParallellRunner extends AbstractTestNGCucumberTests {
+public class TestNGParallelRunner extends AbstractTestNGCucumberTests {
 	
 	@Override
 	@DataProvider(parallel = true)

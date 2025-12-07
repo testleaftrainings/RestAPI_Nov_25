@@ -1,21 +1,22 @@
-package step.defs;
+package steps.def.som;
 
-import org.hamcrest.Matchers;
+import java.util.List;
+import java.util.Map;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
+import servinow.services.IncidentServiceV2;
 import week3.day2.CreateRecordPayload;
 
 public class IncidentServiceSteps {
 	
 	// Set all your precondition value
 	RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
-	Response response;
+	IncidentServiceV2 incidentService = new IncidentServiceV2();
 	CreateRecordPayload payload = new CreateRecordPayload();
 
 	@Given("User should set base uri {string} of the service now table api")
@@ -35,30 +36,7 @@ public class IncidentServiceSteps {
 
 	@When("user should hit the get method of the incident table api")
 	public void user_should_hit_the_get_method_of_the_incident_table_api() {
-		response = RestAssured.given()
-		           .spec(requestSpecBuilder.build())
-		           .get("/incident");		 
-	}
-
-	@Then("user should see the success status code as a {int}")
-	public void user_should_see_the_success_status_code_as_a(Integer statusCode) {
-		response.then().assertThat().statusCode(statusCode);
-	}
-
-	@Then("user should see the success line as a {string}")
-	public void user_should_see_the_success_line_as_a(String statusLine) {
-		response.then().assertThat().statusLine(Matchers.containsString(statusLine));
-	}
-
-	@Then("user should see the respone as a {string} format")
-	public void user_should_see_the_respone_as_a_format(String responseFormat) {
-		if(responseFormat.equalsIgnoreCase("JSON")) {
-			response.then().assertThat().contentType(ContentType.JSON);
-		} else if(responseFormat.equalsIgnoreCase("XML")) {
-			response.then().assertThat().contentType(ContentType.XML);
-		} else {
-			throw new RuntimeException("Servicenow table api response format should be JSON or XML");
-		}
+		incidentService.getRecords(requestSpecBuilder);		 
 	}
 	
 	@Given("user should set header key as {string} and value as {string}")
@@ -73,9 +51,15 @@ public class IncidentServiceSteps {
 	
 	@When("user should hit the get method of the incident table api to fetch single record")
 	public void user_should_hit_the_get_method_of_the_incident_table_api_to_fetch_single_record() {
-	    response = RestAssured.given()
-	    		              .spec(requestSpecBuilder.build())
-	    		              .get("/incident/{sys_id}");
+	    incidentService.getRecord(requestSpecBuilder);
+	}
+	
+	@Then("user should see the success response with the expected value")
+	public void user_should_see_the_success_response_with_the_expected_value(DataTable dataTable) {
+		List<Map<String, String>> maps = dataTable.asMaps();
+		for (Map<String, String> map : maps) {
+			incidentService.validateResponse(Integer.parseInt(map.get("statusCode")), map.get("statusLine"), map.get("responseFormat"));			
+		}
 	}
 	
 	@When("user enters the short description value as {string} in the request body")
@@ -90,10 +74,16 @@ public class IncidentServiceSteps {
 	
 	@When("user should hit the post method of incident table api to create new record")
 	public void user_should_hit_the_post_method_of_incident_table_api_to_create_new_record() {
-	    response = RestAssured.given()
-	    		              .spec(requestSpecBuilder.build())
-	    		              .body(payload)
-	    		              .post("/incident");	    		              
+	    incidentService.createNewRecord(requestSpecBuilder, payload);    		              
+	}
+	
+	@When("user should create request payload based on the given data")
+	public void user_should_create_request_payload_based_on_the_given_data(DataTable dataTable) {
+	    List<List<String>> lists = dataTable.asLists();
+	    for (List<String> list : lists) {
+	    	payload.setShortDescription(list.get(0));
+			payload.setCategory(list.get(1));
+		}
 	}
 
 }
