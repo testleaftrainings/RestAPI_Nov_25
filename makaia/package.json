@@ -1,0 +1,15 @@
+{
+  "name": "makaia",
+  "version": "1.0.0",
+  "description": "Kindly create **\"secret.properties\"** file under the **\"src/test/resources/\"** mentioned location.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "allure-commandline": "^2.36.0"
+  }
+}

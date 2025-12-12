@@ -9,3 +9,5 @@ images/
 allure-report/
 allure-results/
 snapshots/
+node_modules/
+package-lock.json
