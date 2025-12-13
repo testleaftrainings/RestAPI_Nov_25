@@ -7,8 +7,10 @@ import java.lang.reflect.Method;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 
+import com.testleaf.makaia.general.utils.AllureHandler;
 import com.testleaf.makaia.selenium.base.SeleniumBase;
 
 import io.qameta.allure.Allure;
@@ -52,6 +54,11 @@ public class TestNGHooks extends SeleniumBase  {
 			quit();
 		}
 
+	}
+	
+	@AfterSuite
+	public void afterSuite() {
+		AllureHandler.moveHistoryFolderToAllureResults();
 	}
 
 }
