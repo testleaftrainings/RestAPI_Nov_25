@@ -7,7 +7,7 @@ import com.testleaf.makaia.ui.design.Locators;
 public class LoginPage extends TestNGHooks {
 	
 	public LoginPage() {
-		loadUrl(config("makaia.aut.url"));
+		loadUrl(config("uibank.frontend.url"));
 	}
 	
 	public LoginPage enterUserName(String username) {
