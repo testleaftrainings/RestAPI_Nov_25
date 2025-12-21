@@ -1,5 +1,7 @@
 package com.testleaf.makaia.rest.assured.api.client;
 
+import java.util.logging.Logger;
+
 import org.json.JSONObject;
 
 import io.restassured.filter.Filter;
@@ -14,6 +16,12 @@ public class RestAssuredListener implements Filter {
 	@Override
 	public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec,
 			FilterContext ctx) {
+		
+		Logger logger = Logger.getLogger("RestAssuredListener");
+		logger.info("");
+		logger.warning("");
+		logger.fine("");
+		
 		Response response = ctx.next(requestSpec, responseSpec);
 		System.out.println("============ Request Log ============");
 		System.out.printf("""

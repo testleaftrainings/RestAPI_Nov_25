@@ -25,6 +25,11 @@
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>5.5.6</version>
+		</dependency>		
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<version>5.5.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -51,6 +56,21 @@
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-testng</artifactId>
 			<version>7.32.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.wiremock</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>3.13.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.victools</groupId>
+			<artifactId>jsonschema-generator</artifactId>
+			<version>4.38.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20250517</version>
 		</dependency>
 	</dependencies>
 </project>
