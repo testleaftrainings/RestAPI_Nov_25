@@ -1,0 +1,37 @@
+in restassured how to change jackson library to gson library in desreilaization java
+
+To switch from Jackson to Gson for deserialization in RestAssured, you need to configure RestAssured to use Gson as its object mapper. This involves adding the Gson dependency and then explicitly setting RestAssured's ObjectMapperType to GSON.
+1. Add Gson Dependency:
+Ensure you have the Gson library in your project's dependencies. If using Maven, add the following to your pom.xml:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10.1</version> <!-- Use the latest stable version -->
+</dependency>
+
+
+2. Configure RestAssured to use Gson:
+Before making your API requests, configure RestAssured to use Gson as its default object mapper for serialization and deserialization.
+
+import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.mapper.ObjectMapperType;
+
+public class RestAssuredGsonConfig {
+
+    public static void setupGson() {
+        RestAssured.config = RestAssured.config()
+            .objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.GSON));
+    }
+
+    public static void main(String[] args) {
+        setupGson();
+        // Now, when you use .as(YourPojo.class) for deserialization,
+        // RestAssured will use Gson instead of Jackson.
+        // Example:
+        // YourPojo pojo = given().get("/your/endpoint").as(YourPojo.class);
+    }
+}
+
+By calling setupGson() once at the beginning of your tests or application, all subsequent RestAssured operations that involve object mapping will use Gson for both serialization and deserialization.

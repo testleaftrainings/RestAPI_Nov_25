@@ -1,0 +1,22 @@
+Swagger is a set of open-source tools and a specification for designing, building, documenting, and consuming RESTful APIs, making them human-readable and machine-readable for easier development and collaboration. 
+
+Swagger allowing developers to define API structure (endpoints, parameters, responses) once and use it across the entire development lifecycle.
+
+Why it's Important:
+
+i)  Improved Collaboration: Non-technical stakeholders (PMs, clients) can understand the API.
+ii) Faster Development: Automates documentation and code scaffolding.
+iii)Better Developer Experience (DX): Easy-to-use, interactive documentation for consumers.
+iv) Lifecycle Management: Supports the entire API journey from design to deployment. 
+
+FakeRESTApi: This project provides a simple, basic set of CRUD (Create, Read, Update, Delete) operations across several resources like Activities, Authors, Books, and Users. It is a good option for practicing general API calls.
+Live URL: https://fakerestapi.azurewebsites.net/index.html 
+
+How to Use Them
+
+1. Navigate to the link: Open one of the URLs above in your web browser.
+2. Explore Endpoints: You will see a list of available endpoints (e.g., /pet, /user, /Books). Expand an endpoint to see its details.
+3. Try It Out: Click the "Try it out" button next to a specific method (GET, POST, PUT, DELETE).
+4. Provide Parameters (if needed): Enter any required parameters or request body details. Swagger UI often provides example values automatically.
+5. Execute: Click "Execute" to send the API request to the server.
+View Results: The interface will display the curl command, the request URL, the response code (e.g., 200 OK, 500 Internal Server Error), and the response body in JSON format.

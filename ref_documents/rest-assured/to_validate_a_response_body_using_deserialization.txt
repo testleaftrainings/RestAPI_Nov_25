@@ -1,0 +1,103 @@
+To validate a Rest Assured response body using deserialization, you convert the JSON response into a Plain Old Java Object (POJO) and then use standard Java assertions (like JUnit's assertEquals) on the POJO's fields. This provides type-safe, readable, and maintainable validation code.
+
+Step 1: Create a POJO Class 
+
+Create a Java class (or multiple classes for nested JSON) that mirrors the structure and field names of your JSON response. Use standard Java naming conventions (camelCase) with getters and setters. If your JSON uses different naming conventions (e.g., user_id), use the @JsonProperty annotation from the Jackson library to map them correctly.
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Order {
+    private int id;
+    @JsonProperty("user_id")
+    private String userId;
+    @JsonProperty("product_name")
+    private String productName;
+    // ... include other fields, getters, and setters
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    // ... other getters and setters
+}
+
+public class OrderResponse {
+    private String message;
+    private List<Order> orders;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+}
+
+Step 2: Perform the Request and Deserialize the Response 
+
+In your test method, perform the API request and use the .as() method to deserialize the response body into your POJO class instance. Rest Assured automatically handles the conversion using the Jackson or Gson library (if available on the classpath). 
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class ApiTest {
+
+    @Test
+    public void testResponseDeserializationAndValidation() {
+        // Perform the request and extract the body as a POJO
+        OrderResponse responseObj = RestAssured.given()
+            .when()
+                .get("http://localhost:3004/getAllOrders") // Replace with your API endpoint
+            .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(OrderResponse.class); // Deserialize to OrderResponse POJO
+
+        // Now, perform validation using standard JUnit assertions on the POJO object
+        Assert.assertEquals("Orders fetched successfully!", responseObj.getMessage());
+        Assert.assertEquals(1, responseObj.getOrders().get(0).getId());
+        Assert.assertEquals("Aerodynamic Bronze Chair", responseObj.getOrders().get(1).getProductName());
+    }
+}
+
+Handling JSON Arrays at the Root:
+
+If your API response is a JSON array at the root level (e.g., [{...}, {...}]), you can deserialize it into an array or a List of POJOs. A common, clean approach for a List is using TypeRef: 
+
+import io.restassured.common.mapper.TypeRef;
+// ... other imports
+
+@Test
+public void testJsonArrayResponse() {
+    List<Order> ordersList = RestAssured.given()
+        .when()
+            .get("http://localhost:3004/getOrdersArray") // Endpoint returning a JSON array
+        .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .as(new TypeRef<List<Order>>() {}); // Use TypeRef for generic types
+
+    // Validate the list
+    Assert.assertFalse(ordersList.isEmpty());
+    Assert.assertEquals(4, ordersList.size());
+    Assert.assertEquals(1, ordersList.get(0).getId());
+}
+
+This approach is highly recommended for complex or dynamic JSON responses as it avoids error-prone manual JSON path parsing and offers strongly typed object validation. 

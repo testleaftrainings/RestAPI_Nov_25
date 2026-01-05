@@ -1,0 +1,71 @@
+how to mock api request payload in wiremock java
+
+To mock API requests based on their payload in WireMock using Java, you need to define stub mappings that include request body matching conditions. WireMock offers various ways to match request bodies, including exact string matching, regular expressions, JSON path expressions, and XPath expressions.
+
+Here's how to mock API requests based on their payload in WireMock using Java: Add WireMock Dependency.
+
+Include the WireMock dependency in your project's pom.xml (for Maven) or build.gradle (for Gradle).
+
+    <!-- Maven -->
+    <dependency>
+        <groupId>com.github.tomakehurst</groupId>
+        <artifactId>wiremock-standalone</artifactId>
+        <version>3.9.0</version> <!-- Use the latest stable version -->
+        <scope>test</scope>
+    </dependency>
+
+Start WireMock Server.
+Before defining stubs, ensure your WireMock server is running. You can start it programmatically in your tests.
+
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import com.github.tomakehurst.wiremock.WireMockServer;
+
+// ... inside your test class or setup method
+WireMockServer wireMockServer = new WireMockServer(wireMockConfig().port(8080));
+ wireMockServer.start();
+// ... later, in tearDown or after tests
+wireMockServer.stop();
+
+Define Stubs with Payload Matching:
+Exact Body Matching:
+
+        import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+        stubFor(post(urlEqualTo("/api/data"))
+            .withRequestBody(equalToJson("{\"key\":\"value\"}")) // Exact JSON match
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody("{\"status\":\"success\"}")));
+
+JSON Path Matching.
+
+        import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+        stubFor(post(urlEqualTo("/api/users"))
+            .withRequestBody(matchingJsonPath("$.user.name", equalTo("John Doe"))) // Match a specific field in JSON
+            .willReturn(aResponse()
+                .withStatus(201)
+                .withBody("{\"id\":\"123\", \"message\":\"User created\"}")));
+
+Regex Body Matching.
+
+        import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+        stubFor(put(urlEqualTo("/api/items"))
+            .withRequestBody(matching(".*\"status\":\"active\".*")) // Match a substring with regex
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody("{\"message\":\"Item updated\"}")));
+
+Make Requests and Verify.
+
+Use an HTTP client (e.g., Apache HttpClient, Spring's RestTemplate) to make requests to your WireMock server and then use WireMock's verify methods to assert that the correct stubs were matched.
+
+    import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+    // ... after making the request to /api/data with the specified payload
+    verify(postRequestedFor(urlEqualTo("/api/data"))
+        .withRequestBody(equalToJson("{\"key\":\"value\"}")));
+
+By using these request body matching options, you can precisely control which incoming API requests, based on their payloads, will trigger specific mocked responses in WireMock.

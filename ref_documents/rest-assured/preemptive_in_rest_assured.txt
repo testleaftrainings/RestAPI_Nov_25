@@ -1,0 +1,25 @@
+preemptive in rest assured
+
+In Rest Assured, "preemptive" refers to a specific type of authentication strategy where credentials are sent with the initial request to the server, rather than waiting for the server to challenge the client with a 401 Unauthorized status code. 
+
+Here's a breakdown of what preemptive authentication means in Rest Assured: 
+
+Default Behavior (Challenged Authentication):
+By default, Rest Assured uses a "challenge-response" mechanism for basic authentication. This means it sends a request without credentials first. If the server requires authentication, it responds with a 401 status code, and then Rest Assured sends a subsequent request with the credentials.
+
+Preemptive Authentication:
+In contrast, preemptive authentication proactively includes the authentication credentials (like username and password for basic authentication) in the very first request's header. This eliminates the need for the server to send a 401 challenge, potentially reducing the number of requests and improving efficiency, especially when dealing with APIs that consistently require authentication.
+
+Implementation in Rest Assured:
+You implement preemptive authentication in Rest Assured by using the .preemptive() method before specifying the authentication type, such as .basic().
+
+RestAssured Java Syntax:
+
+    given()
+        .auth()
+        .preemptive()
+        .basic("username", "password")
+    .when()
+        .get("https://api.example.com/resource")
+    .then()
+        .statusCode(200);

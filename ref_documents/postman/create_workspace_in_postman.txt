@@ -1,0 +1,12 @@
+Create Workspace in Postman:-
+
+Step 01: Open Postman application
+Step 02: Ensure you're logged into your Postman account
+Step 03: Click on "Workspaces" in the top navigation bar
+Step 04: Select "Create Workspace" from the dropdown menu
+Step 05: By default "Blank Workspace" is selected. If not, select the same
+Step 06: Click on "Next" button
+Step 07: Enter a clear, descriptive name for your workspace
+Step 08: Select workspace type as "internal". By default it is selected
+Step 09: Select "Only you and invited people" manage access
+Step 10: Click on "Create" button

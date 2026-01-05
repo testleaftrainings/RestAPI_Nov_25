@@ -1,0 +1,79 @@
+src/main/java
+        |
+        |____ com.testleaf.makaia.api.design
+        |                 |
+        |                 |___ ApiClient.java  
+        |
+        |____ com.testleaf.makaia.data.utils     
+        |                 |
+        |                 |___ ExcelReader.java
+        |
+        |____ com.testleaf.makaia.general.utils
+        |                 |
+        |                 |___ AllureHandlers.java
+        |                 |___ FilesHandlers.java
+        |                 |___ PropertiesHandlers.java  
+        |
+        |____ com.testleaf.makaia.rest.assured.api.client
+        |                 |
+        |                 |___ RestAssuredApiClient.java
+        |                 |___ RestAssuredListener.java        
+        |
+        |____ com.testleaf.makaia.selenium.base
+        |                 |
+        |                 |___ DriverInstance.java
+        |                 |___ SeleniumBase.java  
+        |
+        |____ com.testleaf.makaia.testng.listener
+        |                 |
+        |                 |___ RetryFailer.java
+        |                 |___ RetryListener.java
+        |
+        |____ com.testleaf.makaia.ui.design
+                          |
+                          |___ Browser.java
+                          |___ Element.java
+                          |___ Locators.java  
+
+src/test/java
+        |    
+        |____ com.testleaf.makaia.servicenow.api.som
+        |                 |
+        |                 |___ IncidentService.java
+        |                 |___ ServiceNow.java
+        |
+        |____ com.testleaf.makaia.servicenow.deserialization.pojos
+        |                 |
+        |                 |___ Result.java
+        |                 |___ TableApiJson.java
+        |                 |___ TableApiJsonArray.java
+        |
+        |____ com.testleaf.makaia.servicenow.e2e.tests
+        |                 |
+        |                 |___ IncidentTests.java
+        |
+        |____ com.testleaf.makaia.servicenow.serialization.pojos
+        |                 |
+        |                 |___ CreateIncident.java
+        |                 |___ UpdateIncident.java
+        |
+        |____ com.testleaf.makaia.servicenow.ui.pages
+        |                 |
+        |                 |___ IncidentPage.java
+        |                 |___ ListofIncidents.java
+        |                 |___ LoginPage.java
+        |
+        |____ com.testleaf.makaia.testng.hooks
+                          |
+                          |___ TestNGHooks.java
+
+src/test/resources
+        |    
+        |____ allure.properties
+        |____ config.properties
+        |____ secret.properties                          
+
+pacakge.json
+pom.xml
+README.md
+testng.xml        

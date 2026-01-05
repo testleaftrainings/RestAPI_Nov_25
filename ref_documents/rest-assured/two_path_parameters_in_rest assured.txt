@@ -1,0 +1,73 @@
+how to two path parameters in rest assured using RequestSpecBuilder class in java
+
+To add two path parameters in Rest Assured using RequestSpecBuilder, you can use the addPathParam() method repeatedly or the addPathParams() method with a Map or name-value pairs. 
+
+Method 1: Using addPathParam() repeatedly
+
+You can chain multiple addPathParam() calls on the RequestSpecBuilder instance.
+
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.RestAssured;
+
+public class TwoPathParamsExample {
+    public static void main(String[] args) {
+        // 1. Create a RequestSpecBuilder instance
+        RequestSpecBuilder builder = new RequestSpecBuilder();
+
+        // 2. Add multiple path parameters
+        builder.addPathParam("user", "john_doe");
+        builder.addPathParam("id", 123);
+        builder.setBaseUri("https://api.example.com"); // Set base URI
+
+        // 3. Build the RequestSpecification
+        RequestSpecification requestSpec = builder.build();
+
+        // 4. Use the specification with a path that includes placeholders
+        RestAssured.given()
+                   .spec(requestSpec)
+                   .when()
+                   .get("/users/{user}/items/{id}") // The path placeholders are filled from the spec
+                   .then()
+                   .statusCode(200);
+    }
+}
+
+Method 2: Using addPathParams() with a Map
+
+For clarity and conciseness, especially with many parameters, you can use a Map.
+
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.RestAssured;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TwoPathParamsMapExample {
+    public static void main(String[] args) {
+        // 1. Create a RequestSpecBuilder instance
+        RequestSpecBuilder builder = new RequestSpecBuilder();
+
+        // 2. Create a Map of path parameters
+        Map<String, Object> pathParams = new HashMap<>();
+        pathParams.put("user", "john_doe");
+        pathParams.put("id", 123);
+
+        // 3. Add the map to the builder
+        builder.addPathParams(pathParams);
+        builder.setBaseUri("https://api.example.com");
+
+        // 4. Build the RequestSpecification
+        RequestSpecification requestSpec = builder.build();
+
+        // 5. Use the specification with a path that includes placeholders
+        RestAssured.given()
+                   .spec(requestSpec)
+                   .when()
+                   .get("/users/{user}/items/{id}")
+                   .then()
+                   .statusCode(200);
+    }
+}
+
+In both methods, the key is that the actual endpoint used in the final get(), post(), etc., call must contain the corresponding placeholders (e.g., {user}, {id}). Rest Assured automatically matches the parameter names in the specification to the placeholders in the path. 

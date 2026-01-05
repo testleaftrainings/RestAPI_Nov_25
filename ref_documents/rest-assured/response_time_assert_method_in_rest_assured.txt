@@ -1,0 +1,68 @@
+Response time assert method in rest assured
+
+Rest Assured provides methods to retrieve and assert the response time of an API request. These methods are available on the Response and ValidatableResponse objects.
+
+1. Retrieving Response Time:
+   
+    -> time() or getTime(): These methods retrieve the response time in milliseconds.
+
+    import io.restassured.RestAssured;
+    import io.restassured.response.Response;
+
+    public class ResponseTimeExample {
+        public static void main(String[] args) {
+            Response response = RestAssured.get("https://www.google.com");
+            long responseTimeMillis = response.getTime(); // or response.time();
+            System.out.println("Response time in milliseconds: " + responseTimeMillis);
+        }
+    }
+
+    -> timeIn(TimeUnit timeUnit) or getTimeIn(TimeUnit timeUnit): These methods retrieve 
+       the response time in a specified TimeUnit (e.g., SECONDS, MINUTES).
+
+        import io.restassured.RestAssured;
+    import io.restassured.response.Response;
+    import java.util.concurrent.TimeUnit;
+
+    public class ResponseTimeInUnitsExample {
+        public static void main(String[] args) {
+            Response response = RestAssured.get("https://www.google.com");
+            long responseTimeSeconds = response.getTimeIn(TimeUnit.SECONDS); // or response.timeIn(TimeUnit.SECONDS);
+            System.out.println("Response time in seconds: " + responseTimeSeconds);
+        }
+    }
+
+2. Asserting Response Time:
+
+When you want to assert the response time using matchers, you use the time() method on the ValidatableResponse object.
+   
+   -> time(Matcher matcher): Asserts the response time in milliseconds against a Hamcrest 
+      matcher.
+
+    import io.restassured.RestAssured;
+    import static org.hamcrest.Matchers.*;
+
+    public class AssertResponseTimeExample {
+        public static void main(String[] args) {
+            RestAssured.get("https://www.google.com")
+                .then()
+                .time(lessThan(5000L)); // Assert response time is less than 5 seconds (5000 milliseconds)
+        }
+    }
+
+    -> time(Matcher matcher, TimeUnit timeUnit): Asserts the response time in a specified 
+       TimeUnit against a Hamcrest matcher.
+
+   import io.restassured.RestAssured;
+    import static org.hamcrest.Matchers.*;
+    import java.util.concurrent.TimeUnit;
+
+    public class AssertResponseTimeInUnitsExample {
+        public static void main(String[] args) {
+            RestAssured.get("https://www.google.com")
+                .then()
+                .time(lessThan(5L), TimeUnit.SECONDS); // Assert response time is less than 5 seconds
+        }
+    }
+
+These methods provide flexibility in both retrieving and validating the response time of your API calls within Rest Assured.

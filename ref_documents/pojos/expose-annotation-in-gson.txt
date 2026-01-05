@@ -1,0 +1,81 @@
+@expose annotation in gson
+
+The @Expose annotation in Gson is used to mark specific fields for inclusion during JSON serialization and deserialization, but it is only effective when a custom Gson instance is built using;
+
+GsonBuilder().excludeFieldsWithoutExposeAnnotation().create(). By default, a standard new Gson() instance ignores this annotation and includes all fields (unless they are marked transient). 
+
+Key Uses and Attributes
+
+The @Expose annotation provides fine-grained control over which data is exposed in your JSON payload, which is useful for security, privacy, and efficiency. 
+
+-> @Expose(serialize = true/false): Controls whether the field is included when converting a Java object to a JSON string. The default is true.
+
+-> @Expose(deserialize = true/false): Controls whether the field is included when converting a JSON string back into a Java object. The default is true. 
+
+Example Implementation
+
+Here is a full example showing a class with @Expose annotations and the necessary GsonBuilder configuration.
+
+1. The Java Class, Only fields with @Expose will be considered for inclusion when using the specific Gson builder configuration. 
+
+import com.google.gson.annotations.Expose;
+
+public class User {
+    @Expose
+    private final String firstName;
+
+    @Expose(serialize = false)
+    private final String lastName; // Excluded during serialization
+
+    @Expose(deserialize = false)
+    private final String email; // Excluded during deserialization
+
+    private final String password; // Excluded entirely (no @Expose)
+
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+    // Getters and setters...
+}
+
+2. The Gson Builder Configuration, You must explicitly configure your Gson instance to respect the @Expose annotation using the excludeFieldsWithoutExposeAnnotation() method. 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class GsonExposeDemo {
+    public static void main(String[] args) {
+        // Use GsonBuilder to activate the @Expose logic
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting() // Optional: formats the output nicely
+                .create();
+
+        User user = new User("John", "Doe", "john.doe@example.com", "secretPassword123");
+
+        // Serialization
+        String jsonOutput = gson.toJson(user);
+        System.out.println("Serialized JSON:");
+        System.out.println(jsonOutput);
+
+        // Deserialization
+        String jsonInput = "{\"firstName\":\"Jane\",\"lastName\":\"Smith\",\"email\":\"jane.smith@example.com\"}";
+        User deserializedUser = gson.fromJson(jsonInput, User.class);
+        System.out.println("\nDeserialized User Email: " + deserializedUser.email);
+    }
+}
+
+Output of the Demo:
+
+Serialized JSON:
+{
+  "firstName": "John",
+  "email": "john.doe@example.com"
+}
+
+Deserialized User Email: null
+
+As demonstrated, the lastName field is excluded from the JSON string because serialize = false was set, and the email field is null in the deserialized object because deserialize = false was set. The password field is excluded entirely because it lacks the @Expose annotation. 

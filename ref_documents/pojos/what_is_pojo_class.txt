@@ -1,0 +1,61 @@
+what is pojo class in java?
+
+A POJO (Plain Old Java Object) class in Java is a simple, standard Java class that represents a data structure. It's designed to hold data and typically includes methods to access and modify that data. The term "Plain Old Java Object" emphasizes that it's a basic Java object without special restrictions or dependencies on specific frameworks or APIs.
+
+Key characteristics of a POJO class:
+
+1) Encapsulation: It typically encapsulates its state using private fields to maintain data integrity.
+
+2) Getters and Setters: It provides public getter methods to retrieve the values of its fields and public setter methods to modify those values. This follows the JavaBeans 
+   convention, making it easily usable with many Java frameworks. 
+
+3) Constructors: It usually includes one or more constructors to initialize its objects, including a default (no-argument) constructor.
+
+4) No Special Dependencies: A POJO does not extend or implement any specific framework-related classes or interfaces (e.g., HttpServlet, EntityBean). It also avoids pre-specified 
+   annotations that tie it to a particular framework.
+
+5) Focus on Data: Its primary purpose is to represent data and associated behavior, making it a clear and reusable component for data transfer between different layers of an 
+   application.
+
+public class Product {
+    private String name;
+    private double price;
+    private int quantity;
+
+    // Default constructor
+    public Product() {
+    }
+
+    // Parameterized constructor
+    public Product(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Getter methods
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    // Setter methods
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+}

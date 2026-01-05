@@ -1,0 +1,55 @@
+Difference Between PUT and PATCH HTTP methods?
+
+🧩 1.) PUT - Replace the Entire Resource
+
+Purpose: 
+
+PUT is used to replace an entire resource with a new version.
+
+Behavior:
+
+-> The client sends the complete representation of the resource.
+
+-> If the resource already exists, it is fully replaced.
+
+-> If it doesn’t exist, the server can create it (depending on 
+   implementation).
+
+Example:
+
+PUT /users/123
+Content-Type: application/json
+
+{
+  "id": 123,
+  "name": "Alice",
+  "email": "alice@example.com"
+}
+
+🟢 After this request, the resource /users/123 will contain 
+   exactly this JSON. If there was a previous field like "age": 30 that isn’t in the new body, it will be deleted.
+
+🧩 2.) PATCH — Update Part of the Resource
+
+Purpose:
+
+PATCH is used to partially update a resource — you only send the fields that need to change.
+
+Behavior:
+
+-> The client sends only the data that should be updated.
+
+-> Other fields remain unchanged.
+
+-> More efficient for small updates.
+
+Example:
+
+PATCH /users/123
+Content-Type: application/json
+
+{
+  "email": "alice@newdomain.com"
+}
+
+🟢 This will only update the email field of user 123 — the rest of the user’s data stays the same.

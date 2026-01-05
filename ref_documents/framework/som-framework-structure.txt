@@ -1,0 +1,52 @@
+
+SOM -> Services Object Model
+
+1.) Should create a separate class for the each and every services
+2.) Create individual method for each HTTP methods action based on the business logic
+3.) Create the object or extend the service class to the cucumber step definition class
+
+
+
+public class LoginPage {
+	
+	public void enterUsername() {
+
+	}
+
+	public void enterPassword() {
+
+	}
+
+	public void clickLoginButton() {
+
+	}
+
+} 	
+
+public class IncidentService {
+
+   public void getIncidents() {
+
+   }
+
+   public void getIncident(String sysId) {
+
+   }
+
+   public void getIncidetsByCategory(String category) {
+
+   }
+
+   public void createIncident(Object payload) {
+
+   }
+
+   public void createIncident() {
+
+   }
+
+   public void validateResponse(int statuCode, String statusLine) {
+
+   }
+	
+}

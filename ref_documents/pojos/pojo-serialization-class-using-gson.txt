@@ -1,0 +1,64 @@
+I need to make curtain methods are must set in Pojo serialization class using gson
+
+Gson primarily works by using reflection on instance fields directly, rather than relying on getter and setter methods during serialization. Therefore, your POJO class does not inherently need "curtain methods" (likely meaning getter/setter methods) for Gson to work. 
+
+If you want to ensure fields are serialized, the default Gson instance will serialize all fields. You only need to use specific configurations if you want to exclude fields. 
+
+Default Gson Behavior
+
+By default, Gson serializes all fields in a Java object, regardless of whether getter or setter methods are present.
+
+import com.google.gson.Gson;
+
+public class User {
+    // These fields will be serialized by default
+    private String name;
+    private String email;
+    private int age;
+
+    // Constructor to set values
+    public User(String name, String email, int age) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+    }
+}
+
+// Serialization
+User user = new User("John Doe", "john.doe@example.com", 30);
+Gson gson = new Gson(); // Default Gson instance
+String jsonOutput = gson.toJson(user);
+System.out.println(jsonOutput);
+// Output: {"name":"John Doe","email":"john.doe@example.com","age":30}
+
+Controlling Field Serialization
+
+If you need more control (e.g., you are using annotations like @Expose or the transient keyword), you use GsonBuilder to customize the Gson instance. 
+
+. transient keyword: Fields marked as transient are ignored by Gson by default.
+. @Expose annotation: If you want to use the @Expose annotation to explicitly mark which fields 
+  should be included, you must configure your Gson instance using excludeFieldsWithoutExposeAnnotation(). 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
+public class UserExpose {
+    @Expose // This field will be serialized
+    private String name;
+    @Expose(serialize = false) // This field will be ignored during serialization
+    private String email;
+    private int age; // This field will be ignored because we are excluding fields without @Expose
+
+    // ... constructor and other methods ...
+}
+
+// Custom Gson instance that respects @Expose
+Gson customGson = new GsonBuilder()
+    .excludeFieldsWithoutExposeAnnotation()
+    .create();
+
+String jsonOutput = customGson.toJson(userExposeInstance);
+// Output will only contain the 'name' field
+
+In summary, you do not need to add getter/setter methods for basic Gson serialization. Gson uses reflection to access fields directly. 

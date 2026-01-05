@@ -1,0 +1,60 @@
+datatable in cucumber java
+
+Data tables in Cucumber-JVM (Java) provide a mechanism to pass multiple sets of data to a single step definition in a structured, tabular format within a Gherkin feature file. This offers an alternative to using Scenario Outlines with Examples, particularly when the data is specific to a single step rather than the entire scenario.
+
+Defining Data Tables in Gherkin:
+
+Data tables are defined directly below a step using pipe (|) separated values, where each row represents a distinct set of data.
+
+Scenario: User registration with multiple details
+  Given the following user details:
+    | Username | Password | Email             |
+    | user1    | pass123  | user1@example.com |
+    | user2    | pass456  | user2@example.com |
+
+Accessing Data Tables in Step Definitions:
+
+In your Java step definition, you can access the data table by including a io.cucumber.datatable.DataTable object as the last parameter of your step definition method. Cucumber automatically converts the Gherkin table into this object.
+
+import io.cucumber.datatable.DataTable;
+import java.util.List;
+import java.util.Map;
+
+public class UserRegistrationSteps {
+
+    @Given("the following user details:")
+    public void theFollowingUserDetails(DataTable dataTable) {
+        // Option 1: Convert to a List of Maps (common for tables with headers)
+        List<Map<String, String>> users = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> user : users) {
+            String username = user.get("Username");
+            String password = user.get("Password");
+            String email = user.get("Email");
+            // Perform actions with user details
+            System.out.println("Registering user: " + username + ", " + password + ", " + email);
+        }
+
+        // Option 2: Convert to a List of Lists (useful for tables without headers or simple data)
+        List<List<String>> rawData = dataTable.asLists(String.class);
+        // Access data by index, e.g., rawData.get(0).get(0) for the first cell
+    }
+}
+
+Common Data Table Conversions:
+
+asMaps(Class<K> keyType, Class<V> valueType):
+Converts the data table into a List<Map<K, V>>. The first row of the Gherkin table is treated as the keys for the maps, and subsequent rows provide the values.
+
+asLists(Class<T> cellType):
+Converts the data table into a List<List<T>>. Each inner list represents a row, and each element within the inner list is a cell value.
+
+asList(Class<T> cellType):
+Converts a single-column data table into a List<T>.
+
+asMap(Class<K> keyType, Class<V> valueType):
+Converts a two-column data table into a Map<K, V>, where the first column contains keys and the second column contains values.
+
+Benefits of Using Data Tables:
+Improved Readability: Organizes test data clearly within the feature file.
+Reduced Duplication: Avoids repeating similar steps for different data sets.
+Parameterizat

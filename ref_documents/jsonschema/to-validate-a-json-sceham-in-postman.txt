@@ -1,0 +1,32 @@
+To validate a JSON schema in Postman, you add a test script to your request's "Tests" tab that uses Postman's built-in schema validation capabilities with the pm.response.to.have.jsonSchema() method. Postman uses the Ajv JSON schema validator internally. 
+
+Step-by-Step Guide:
+
+1. Send your API request in Postman to get a sample JSON response.
+2. Generate your JSON schema. While you can write a schema manually, it is easier to use an online generator tool like 
+   https://jsonschema.net/ by pasting in your sample JSON response.
+3. Go to the "Tests" tab for your request in Postman.
+4. Define your schema within a test script.
+
+const schema = {
+    "type": "object", // or "array", depending on your response
+    "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        // Add all other properties and their types/constraints here
+    },
+    "required": ["id", "name"], // List all mandatory properties
+    "additionalProperties": false // Optional: prevents extra, undeclared properties from passing validation
+};
+
+5. Add the validation snippet to the "Tests" tab below your schema definition:
+
+pm.test("JSON Schema Validation", function () {
+    pm.response.to.have.jsonSchema(schema);
+});
+
+This script tells Postman to test if the API response body adheres to the structure defined in your schema constant.
+
+6. Send the request again and check the "Test Results" tab to see if the validation passed or failed. If it fails, the results will indicate which part of the schema was violated. 
+
+By following these steps, you can implement robust contract testing in your Postman workflow, ensuring your API responses consistently meet the expected format and data types.

@@ -1,0 +1,38 @@
+src/main/java
+        |
+        |____ com.testleaf.matschie.design
+        |                 |
+        |                 |___ ApiClient.java        
+        |               
+        |____ com.testleaf.matschie.rest.assured.api.client
+        |                 |
+        |                 |___ RestAssuredApiClient.java
+        |                 |___ RestAssuredListener.java        
+        |
+        |____ com.testleaf.matschie.data.utils
+        |                 |
+        |                 |___ ExcelReader.java
+        |
+        |____ com.testleaf.matschie.general.utils
+                          |
+                          |___ AllureHandlers.java
+                          |___ FilesHandlers.java
+                          |___ PropertiesHandlers.java   
+
+src/test/java
+        |    
+        |____ com.testleaf.matschie.features
+        |                 |
+        |                 |___ IncidentService.feature
+        |
+        |____ com.testleaf.matschie.step.definitions
+        |                 |
+        |                 |_____ IncidentServiceStep.java
+        |
+        |____ com.testleaf.matschie.runner
+        |                 |
+        |                 |_____ TestNGRunner.java
+        |
+        |____ com.testleaf.matschie.servicenow.api.som
+                          |
+                          |_____ IncidentService.java

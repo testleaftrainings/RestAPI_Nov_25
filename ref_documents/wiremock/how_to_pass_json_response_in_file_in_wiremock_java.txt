@@ -1,0 +1,82 @@
+how to pass json response in file in wiremock java code
+
+To pass a JSON response from a file in WireMock Java code, you should place the file in the src/test/resources/__files directory and use the withBodyFile() method in your stubbing configuration. 
+
+Steps for Implementation
+
+1. Create the JSON File: Create your JSON response file (e.g., response.json) inside the src/test/resources/__files directory. This is the default location WireMock looks for response body files.
+
+2. Add the Stubbing Code: Use the Java API in your test code to configure the stub and reference the file name using withBodyFile().
+
+Example
+
+Here is a full example using the JUnit @Rule approach with WireMock.
+
+1. JSON File (src/test/resources/__files/response.json) 
+
+{
+  "id": 123,
+  "name": "Test Product",
+  "status": "active"
+}
+
+2. Java Test Code
+
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.junit.Rule;
+import org.junit.Test;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+public class MyWireMockTest {
+
+    // This sets up a WireMock server on port 8080
+    @Rule
+    public WireMockRule wireMockRule = new WireMockRule(8080);
+
+    @Test
+    public void testApiReturnsJsonFromFile() {
+        // Stubbing the request to return the content of response.json
+        stubFor(get(urlEqualTo("/api/myresource"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBodyFile("response.json"))); // Reference the file name
+
+        // You can now make an HTTP request to http://localhost:8080/api/myresource
+        // and it will return the contents of response.json.
+        
+        // Example of how you might verify the behavior (using a theoretical client call):
+        // HttpResponse response = myHttpClient.get("http://localhost:8080/api/myresource");
+        // assertEquals(200, response.getStatusLine().getStatusCode());
+        // String responseBody = EntityUtils.toString(response.getEntity());
+        // assertTrue(responseBody.contains("Test Product"));
+    }
+}
+</code>
+### Using Response Templating (Advanced)
+
+If you need the JSON response to be dynamic (e.g., populating values from the request), you can enable response templating and use a Handlebars template file.
+
+1.  **Enable the Transformer**: When starting WireMock programmatically, add the `ResponseTemplateTransformer` extension.
+2.  **Create a Handlebars File** (`src/test/resources/__files/templated_response.json.hbs`).
+3.  **Use `withBodyFile()`** to reference the Handlebars file.
+
+```java
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+
+// ... inside your test class ...
+
+    @Rule
+    public WireMockRule wireMockRuleTemplate = new WireMockRule(options().port(8080)
+            .extensions(new ResponseTemplateTransformer(false))); // Enable templating
+
+    @Test
+    public void testTemplatedResponseFromFile() {
+        stubFor(get(urlPathEqualTo("/templated"))
+            .willReturn(ok()
+                .withBodyFile("templated_response.json.hbs") // Use the template file
+                .withTransformers("response-template"))); // Reference the transformer
+    }
+
+For more information, see the https://wiremock.org/2.x/docs/response-templating/ 

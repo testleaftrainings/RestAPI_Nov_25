@@ -1,0 +1,83 @@
+how to mock api basic authentication in wiremock java
+
+To mock API basic authentication in WireMock Java, you need to configure a stub mapping that matches requests containing the correct "Authorization" header for basic authentication.
+
+Steps:
+
+Calculate the "Base64" encoded credentials:
+Basic authentication requires the username and password to be combined in the format username:password and then Base64 encoded. You can do this programmatically or using an online tool. For example, if the username is admin and the password is password, the encoded value would be YWRtaW46cGFzc3dvcmQ=.
+
+Define the WireMock stub:
+Use the stubFor method to create a new stub mapping. Within this mapping, you will:
+
+1.) Specify the HTTP method and URL path for the request you want to mock.
+2.) Use withHeader to match the Authorization header. The value of this header 
+should be Basic <base64-encoded-credentials>.
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+// Assuming you have a utility to Base64 encode, or you pre-calculate it
+// For "admin:password", the Base64 is "YWRtaW46cGFzc3dvcmQ="
+public class BasicAuthMockingExample {
+
+    private WireMockServer wireMockServer;
+
+    @BeforeEach
+    void setup() {
+        wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(8080));
+        wireMockServer.start();
+        configureFor("localhost", 8080);
+    }
+
+    @AfterEach
+    void teardown() {
+        wireMockServer.stop();
+    }
+
+    @Test
+    void testBasicAuthSuccess() {
+        // Define the stub for successful authentication
+        stubFor(get(urlEqualTo("/secure-resource"))
+                .withHeader("Authorization", equalTo("Basic YWRtaW46cGFzc3dvcmQ=")) // Base64 for admin:password
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withBody("Access Granted!")));
+
+        // Simulate a client request with correct credentials
+        // In a real scenario, you'd use an HTTP client like OkHttp or Apache HttpClient
+        // For demonstration, we'll use WireMock's own request mechanism for simplicity
+        String responseBody = givenThat(get(urlEqualTo("/secure-resource"))
+                .withHeader("Authorization", "Basic YWRtaW46cGFzc3dvcmQ="))
+                .willReturn(aResponse().withStatus(200).withBody("Access Granted!"))
+                .getResponse().getBodyAsString();
+
+        assertEquals("Access Granted!", responseBody);
+    }
+
+    @Test
+    void testBasicAuthFailure() {
+        // Define the stub for unauthorized access (e.g., missing or incorrect credentials)
+        stubFor(get(urlEqualTo("/secure-resource"))
+                .withHeader("Authorization", notMatching("Basic YWRtaW46cGFzc3dvcmQ=")) // Matches any Authorization header not equal to the correct one
+                .willReturn(aResponse()
+                        .withStatus(401)
+                        .withHeader("WWW-Authenticate", "Basic realm=\"Secure Area\"")
+                        .withBody("Unauthorized")));
+
+        // Simulate a client request without credentials
+        String responseBody = givenThat(get(urlEqualTo("/secure-resource")))
+                .willReturn(aResponse().withStatus(401).withHeader("WWW-Authenticate", "Basic realm=\"Secure Area\"").withBody("Unauthorized"))
+                .getResponse().getBodyAsString();
+
+        assertEquals("Unauthorized", responseBody);
+    }
+}
+
+This example demonstrates how to set up stubs for both successful and unsuccessful basic authentication attempts by matching the Authorization header with the Base64 encoded credentials.

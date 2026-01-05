@@ -1,0 +1,130 @@
+To validate a JSON schema in Rest Assured, you need to use the dedicated json-schema-validator library and its matchesJsonSchemaInClasspath() or matchesJsonSchema() methods. This process ensures the response structure, data types, and required fields conform to a predefined schema definition. 
+
+Prerequisites:-
+
+1. Add Maven Dependency: You must include the json-schema-validator artifact in your pom.xml file. Ensure the version matches your main Rest Ass Assured dependency version for compatibility.
+
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>5.5.0</version> <!-- Use your Rest Assured version -->
+    <scope>test</scope>
+</dependency>
+
+For the latest version, check the https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator
+
+2. Create a JSON Schema File: Define your expected JSON structure, including data types (string, integer, boolean, array, object, etc.), required fields, and constraints, in a separate .json file.
+
+   i)  It's best practice to place this file in your project's src/test/resources folder
+   ii) You can create one manually or use an online JSON to Schema converter.
+
+Example Schema (schema.json):
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "userId": { "type": "integer" },
+    "id": { "type": "integer" },
+    "title": { "type": "string" },
+    "body": { "type": "string" }
+  },
+  "required": ["userId", "id", "title", "body"]
+}
+
+Implementation:-
+
+Use Rest Assured's then().assertThat().body() syntax combined with a static method from JsonSchemaValidator. 
+
+Validating a Schema in the Classpath:
+
+This is the most common approach, assuming your schema file is in src/test/resources.
+
+To validate a JSON schema in the classpath, use matchesJsonSchemaInClasspath(). An example of this method;
+
+import org.junit.Test;
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
+public class JsonSchemaValidationTest {
+
+    @Test
+    public void verifyResponseSchema() {
+        given()
+        .when()
+            .get("https://api.example.com/users/1")
+        .then()
+            .assertThat()
+            .statusCode(200)
+            .body(matchesJsonSchemaInClasspath("schemas/user-schema.json"));
+    }
+}
+
+In this example:
+
+i)  user-schema.json must be present in the classpath, e.g., in the src/test/resources/schemas/ directory.
+ii) The argument to the method is the path to the schema file relative to the root of the classpath. 
+
+To validate a schema using its absolute file path, use the matchesJsonSchema(File file) method with a java.io.File object
+
+a) Passing Json Schema From File
+
+import org.junit.Test;
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
+public class JsonSchemaValidationTest {
+
+  @Test
+  public void validateJSONSchema(){
+      //base URL
+      RestAssured.baseURI = "https://jsonplaceholder.typicode.com/posts/2";
+
+      //obtain response
+      given()
+      .when().get()
+
+      //verify JSON Schema
+      .then().assertThat()
+      .body(JsonSchemaValidator.matchesJsonSchema(new File("/Users/src/Parameterize/schema.json")));
+  }
+  
+}
+
+b) Passing Json Schema as String
+
+import org.junit.Test;
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
+public class JsonSchemaValidationTest {
+
+  String jsonSchema = """
+                       {
+                         "$schema": "http://json-schema.org/draft-04/schema#",
+                         "type": "object",
+                         "properties": {
+                           "userId": { "type": "integer" },
+                           "id": { "type": "integer" },
+                           "title": { "type": "string" },
+                           "body": { "type": "string" }
+                        },
+                        "required": ["userId", "id", "title", "body"]
+                      }
+                      """;      
+
+  @Test
+  public void validateJSONSchema(){
+      //base URL
+      RestAssured.baseURI = "https://jsonplaceholder.typicode.com/posts/2";
+
+      //obtain response
+      given()
+      .when().get()
+
+      //verify JSON Schema
+      .then().assertThat()
+      .body(JsonSchemaValidator.matchesJsonSchema(jsonSchema));
+  }
+  
+}

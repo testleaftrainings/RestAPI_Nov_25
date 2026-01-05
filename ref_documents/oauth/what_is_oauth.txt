@@ -1,0 +1,60 @@
+What is OAuth 2.0?
+
+OAuth 2.0, which stands for “Open Authorization”, is a standard designed to allow a website or application to access resources hosted by other web apps on behalf of the user, without ever sharing the user's credentials. 
+
+In Nutshell, OAuth2.0 is a protocol for sharing user authorization across systems.
+
+It works by issuing an access token to the application, which it uses to access specific data on the user's behalf. 
+
+This is commonly seen when you "Login with Google" or "Login with Facebook" to grant an app access to your profile information or other data.  
+
+An OAuth 2.0 flow has the following roles(Entities):-
+
+--> Resource Owner: Entity who owns the protected data and has the ability 
+    to grant access to it. Typically, this is the end-user (e.g., you, the user of a Google account).
+
+--> Resource Server: Server hosting the protected resources. This is the 
+    API you want to access.
+
+--> Client: Application requesting access to a protected resource on behalf 
+    of the Resource Owner.
+
+--> Authorization Server: Server that authenticates the Resource Owner and 
+    issues access tokens after getting proper authorization. In this case, GMail, Facebook or apple account etc...
+
+How it works:-
+
+1) User-to-Client Authorization: The user grants permission to an application (the client) to access their data on another service (the resource server). 
+
+2) Client to Authorization Server: The application redirects the user to the service's authorization server, where the user logs in. 
+
+3) Resource Owner Consent: The user is asked to consent to the application's request for access. 
+
+4) Authorization Code: If the user grants consent, the authorization server sends an authorization code back to the client application. 
+
+5) Token Exchange: The client application sends this code, along with its own credentials, to the authorization server to receive an access token. 
+
+6) Accessing Resources: The client uses the access token to make requests to the resource server to access the user's data. 
+
+7) Security: This process keeps the user's login credentials private, as the access token is temporary and grants limited access to specific resources. 
+
+Key concepts:-
+
+Authorization vs. Authentication: OAuth 2.0 is a protocol for authorization (granting access to resources), not authentication (verifying identity), although it is often used alongside authentication mechanisms.
+
+Access Tokens: These are credentials that the client application uses to access protected resources. They can be short-lived and have defined scopes (e.g., read-only access). 
+
+Grant Types: OAuth 2.0 defines different "flows" or grant types for obtaining an access token, depending on the type of application (e.g., web server, mobile app, single-page app). 
+
+4 Types of OAuth Flows:-
+
+1.) Authorization Code
+2.) Client Credentials
+3.) Implicit Code
+4.) Resource owner Password
+
+OAuth1.0 vs OAuth2.0:-
+
+1.0 protocol desinged for web browser only
+2.0 protocol upgraded for browser app, non browser app, windows app, moblie
+    app and apis

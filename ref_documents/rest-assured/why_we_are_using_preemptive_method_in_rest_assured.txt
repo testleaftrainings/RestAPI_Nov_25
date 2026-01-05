@@ -1,0 +1,26 @@
+why we're using preemptive method in rest assured for JIRA apis?
+
+The use of preemptive authentication in Rest Assured for JIRA APIs, particularly with basic authentication, is primarily driven by efficiency and simplicity.
+
+Reasons for using preemptive authentication:
+
+Reduced Network Overhead:
+By sending authentication credentials with the initial request, preemptive authentication avoids the need for a "challenge-response" cycle. In a challenge-response scenario, the client first sends a request without credentials, the server responds with a 401 Unauthorized status, and only then does the client send another request with the credentials. Preemptive authentication eliminates this extra round trip, reducing network traffic and potentially improving performance.
+
+Simpler Code:
+Preemptive authentication often leads to cleaner and more straightforward code in your Rest Assured tests, as you don't need to handle the potential 401 response and subsequent re-authentication.
+
+Common Practice:
+For many internal or trusted API integrations, such as those with JIRA, sending credentials preemptively is a common and acceptable security practice, as the client is assumed to be authorized and the server is not expected to explicitly challenge for credentials in most cases.
+
+Example in Rest Assured:
+Java
+
+given().
+    auth().preemptive().basic("your_jira_username", "your_jira_password").
+when().
+    get("your_jira_api_endpoint").
+then().
+    statusCode(200);
+    
+While preemptive authentication is generally preferred for its simplicity and efficiency in the context of JIRA API automation with Rest Assured, it is important to note that the choice of authentication method should always align with the specific security requirements and configuration of your JIRA instance and the broader application architecture.

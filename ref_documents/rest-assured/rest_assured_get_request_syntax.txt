@@ -1,0 +1,75 @@
+Rest assured get request syntax:
+
+REST Assured simplifies making and validating GET requests to RESTful APIs. The primary syntax follows a "Given-When-Then" structure, enhancing readability and test clarity.
+
+Basic GET Request Syntax:
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+
+public class GetRequestExample {
+
+    public static void main(String[] args) {
+        // Define the base URI (optional, can also be set globally)
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+
+        // Make a GET request and get the response
+        Response response = given()
+            .when()
+            .get("/posts/1") // The specific endpoint for the GET request
+            .then()
+            .statusCode(200) // Assert the status code
+            .extract().response(); // Extract the response object
+
+        // Print the response body
+        System.out.println("Response Body: " + response.asString());
+    }
+}
+
+Explanation of the "Given-When-Then" structure:
+
+given(): This section is used to define the preconditions of the request.
+  -> contentType(ContentType.JSON): Specifies the expected content type of the request or
+     response.
+  -> header("Authorization", "Bearer token"): Adds custom headers to the request.
+  -> param("queryParam", "value"): Adds query parameters to the request URL.
+
+when(): This section defines the action to be performed.
+  -> get("/posts/1"): Specifies the HTTP GET method and the path of the resource to be
+     fetched.
+
+then(): This section defines the assertions to be made on the response.
+  -> statusCode(200): Verifies that the HTTP status code of the response is 200 (OK).
+  -> body("title", equalTo("sunt aut facere repellat provident occaecati excepturi optio
+     reprehenderit")): Validates a specific field in the response body using Hamcrest matchers.
+  -> header("Content-Type", equalTo("application/json; charset=utf-8")): Verifies a 
+     specific header in the response.
+  -> extract().response(): Extracts the full Response object for further processing or 
+     assertions.
+
+Example with Query Parameters and Headers:
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+public class GetRequestWithParamsAndHeaders {
+
+    public static void main(String[] args) {
+        RestAssured.baseURI = "https://api.example.com";
+
+        Response response = given()
+            .header("Accept", "application/json") // Request header
+            .queryParam("userId", 123) // Query parameter
+            .when()
+            .get("/users") // Endpoint for fetching users
+            .then()
+            .statusCode(200)
+            .body("data[0].id", equalTo(123)) // Assert on a specific element in the response array
+            .extract().response();
+
+        System.out.println("Response Body: " + response.asString());
+    }
+}

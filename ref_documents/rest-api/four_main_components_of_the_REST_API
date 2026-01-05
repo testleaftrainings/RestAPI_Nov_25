@@ -1,0 +1,62 @@
+Four main components of the REST API;
+
+1.) Endpoint
+2.) Headers
+3.) Payload
+4.) Status Code
+
+What's an Endpoint?
+
+An endpoint is the URL where an API listens for your request. Think of it like the API's home address
+
+Example: https://api.example.com/users
+
+What are Headers?
+
+Headers are extra info you attach with your request. They tell the server how to handle it.
+
+Common Headers:
+
+1.) Content-Type: application/json
+2.) Authorization: Bearer token123
+3.) Accpet: application/json
+
+What are Payload?
+
+The payload is the actual data you send (in POST or PUT)
+
+Example:
+
+{
+	"username": "testUser",
+	"password": "securePass"
+}
+
+Status Codes
+
+Status codes are the API's way of saying what happened. Like getting a reply "Received & done" or "Not found?"
+
+Common Codes:
+
+Success Codes (2xx):-
+200 OK        : The request has succeeded.
+201 Created   : A new resource has been created.
+204 No Content: The server successfully processed the request, but there's no 
+                content to send back.
+
+Client Error Codes (4xx):-
+400 Bad Request       : The server cannot process the request due to a client error.
+401 Unauthorized      : The client lacks valid authentication credentials.
+403 Forbidden         : The client has valid credentials but lacks permission to 
+                        access the resource.
+404 Not Found         : The requested resource could not be found.
+405 Method Not Allowed: The HTTP method used is not supported for the requested 
+                        resource.
+409 Conflict          : The request could not be completed due to a conflict with 
+                        the current state of the resource. 
+
+Server Error Code (5xx):-
+500 Internal Server Error: A generic error message for an unexpected condition on 
+                           the server.
+503 Service Unavailable  : The server is not ready to handle the request, often due 
+                           to maintenance or being overloaded.

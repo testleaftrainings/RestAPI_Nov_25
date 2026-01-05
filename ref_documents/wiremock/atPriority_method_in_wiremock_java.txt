@@ -1,0 +1,46 @@
+atPriority() method in wiremock java
+
+The atPriority method in WireMock's Java DSL is used to assign a priority level to a stub mapping. This method is part of the MappingBuilder class and takes an integer as an argument, representing the priority.
+
+Purpose of atPriority:
+WireMock evaluates stub mappings to find the most appropriate response for an incoming request. When multiple stub mappings could potentially match a request, WireMock typically prioritizes the most recently added matching stub. However, atPriority allows for explicit control over this matching order.
+
+How it works:
+
+Lower numbers indicate higher priority:
+A stub with atPriority(1) will be evaluated before a stub with atPriority(5), and so on.
+
+Default priority:
+If no priority is explicitly set using atPriority, WireMock assigns a default priority.
+
+Use cases:
+Overriding general stubs: You can define a general stub mapping (e.g., matching all URLs) with a low priority, and then define more specific stubs for particular URLs or conditions with higher priorities to ensure they are matched first.
+
+Proxying with overrides: When using WireMock for proxying, you can set a low priority for the proxy mapping to catch all requests, and then define higher-priority stubs to intercept and return specific responses for certain URLs or conditions, effectively "overriding" the proxy behavior for those specific cases.
+
+Example:
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+public class WireMockPriorityExample {
+    public static void main(String[] args) {
+        // Start WireMock server
+        WireMockServer wireMockServer = new WireMockServer();
+        wireMockServer.start();
+
+        // High priority stub for a specific URL
+        stubFor(get(urlEqualTo("/api/specific-resource"))
+                .atPriority(1) // Higher priority
+                .willReturn(aResponse().withStatus(200).withBody("Specific resource response")));
+
+        // Low priority catch-all stub
+        stubFor(get(urlMatching("/api/.*"))
+                .atPriority(10) // Lower priority
+                .willReturn(aResponse().withStatus(404).withBody("Generic API response")));
+
+        // ... make requests and observe responses
+
+        wireMockServer.stop();
+    }
+}
+
+In this example, a request to /api/specific-resource would match the first stub due to its higher priority, even though the second stub's URL pattern also matches. Requests to other /api/ paths would fall through to the second, lower-priority stub.

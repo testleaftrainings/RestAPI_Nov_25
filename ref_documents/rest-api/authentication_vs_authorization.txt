@@ -1,0 +1,44 @@
+Authentication vs Authorization
+
+In Nutshell Authentication confirming "who you are?"
+
+Is the process of verifying a user's identity, typically by checking credentials like a password or a fingerprint.
+
+In Nutshell Authorization confirming "What you can do?"
+
+Is the process of determining what actions or resources a verified user is permitted to access within a system.
+
+Authentication serves as a prerequisite for authorization; a system must first know who a user is before it can decide what they are allowed to do.
+
+Authentication
+
+Purpose: To verify the identity of a user or entity. 
+
+Questions answered: "Who are you?" 
+
+Methods: Usernames and passwords, biometrics (fingerprints, retina scans), one-time codes, or certificates.
+
+Example: A front desk clerk asking for your ID to verify your reservation is authentication. 
+
+Authorization
+
+Purpose:
+To grant or deny permissions for a user to access specific resources or perform actions. 
+
+Questions answered:
+"What can you access?" or "What are you allowed to do?"
+
+Methods:
+Role-based access control (RBAC), attribute-based authorization, rule-based authorization, or context-based authorization.
+
+Example:
+The hotel key you receive after checking in is authorization, granting access to your room, the gym, or other amenities. 
+
+How They Work Together
+
+1. A user attempts to access a system. 
+2. The system performs authentication to verify the user's identity using provided 
+   credentials. 
+3. Once authenticated, the system performs authorization to check if the 
+   now-identified user has the necessary permissions to access the requested resource or perform the requested action. 
+4. If both are successful, the user is granted access; otherwise, access is denied. 

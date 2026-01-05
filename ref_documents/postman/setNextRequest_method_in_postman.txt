@@ -1,0 +1,15 @@
+The pm.execution.setNextRequest() method in Postman allows for programmatic control over the order of request execution within a collection run. This function is typically used within the "Tests" script of a request, as it executes after the current request has completed and a response has been received.
+How to use pm.execution.setNextRequest():
+Specify the next request: Pass the name of the desired next request as a string argument to the function. For example, to make a request named "Get User Details" run next, you would use:
+
+    pm.execution.setNextRequest("Get User Details");
+
+Stop the collection run: To terminate the collection run after the current request, pass null as the argument:
+
+    pm.execution.setNextRequest(null);
+
+Key considerations:
+Scope: The scope of pm.execution.setNextRequest() is limited to the collection or folder being run. If you run an entire collection, you can set any request within that collection as the next request. If you run a folder, you can only set requests within that specific folder.
+Execution order: The setNextRequest() function always runs at the completion of the current request, regardless of its placement within the "Tests" script. Any code placed after setNextRequest() in the script will still execute before the next request is triggered.
+Collection Runner: This feature is primarily designed for use with the Collection Runner (or Newman/Postman CLI) and will not function when individual requests are executed using the "Send" button.
+Conditional logic: You can embed setNextRequest() within conditional statements to create dynamic workflows based on test results or other criteria. For example, you might set a different next request depending on whether an assertion passes or fails. 

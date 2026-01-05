@@ -1,0 +1,54 @@
+Cron expression in jenkins:-
+
+Jenkins utilizes cron expressions to schedule jobs for periodic builds. This allows for the automation of job execution at specified intervals.
+
+Cron Expression Format:-
+
+A Jenkins cron expression consists of five fields, each separated by a space, representing:
+
+MINUTE HOUR DAY_OF_MONTH MONTH DAY_OF_WEEK
+
+Field Definitions:-
+
+ -> MINUTE (0-59): The minute of the hour.
+ -> HOUR (0-23): The hour of the day (24-hour format, 0 is midnight).
+ -> DAY_OF_MONTH (1-31): The day of the month.
+ -> MONTH (1-12 or JAN-DEC): The month of the year.
+ -> DAY_OF_WEEK (0-7 or SUN-SAT): The day of the week (0 or 7 is Sunday). 
+
+Special Characters:-
+
+ -> *: Specifies all valid values for a field.
+ -> H: Represents a "hash" value, allowing Jenkins to distribute load by 
+    running jobs at varying times within a specified interval. For example, 
+    H/15 * * * * runs a job every 15 minutes at a random minute within each 15-minute block.
+ -> M-N: Specifies a range of values (e.g., 1-5 for days of the week Monday 
+    to Friday). M-N/X or */X: Steps by intervals of X through the specified range or the whole valid range (e.g., */5 for every 5 minutes).
+ -> A,B,...,Z: Enumerates multiple specific values (e.g., 1,15 for the 1st 
+    and 15th of the month).
+
+Cron Syntax Example:
+
+--> * * * * * : Polls every minute.
+--> H/5 * * * * : Polls every 5 minutes (using 'H' for a hashed value to 
+    distribute load).
+--> H H/2 * * * : Polls every two hours at the top of the hour.
+
+
+# Every fifteen minutes (perhaps at :07, :22, :37, :52):
+--> H/15 * * * *
+
+# Every ten minutes in the first half of every hour (three times, perhaps 
+  at :04, :14, :24):
+--> H(0-29)/10 * * * *
+
+# Once every two hours at 45 minutes past the hour starting at 9:45 AM and 
+  finishing at 3:45 PM every weekday:
+--> 45 9-16/2 * * 1-5
+
+# Once in every two hour slot between 8 AM and 4 PM every weekday (perhaps 
+  at 9:38 AM, 11:38 AM, 1:38 PM, 3:38 PM):
+--> H H(8-15)/2 * * 1-5
+
+# Once a day on the 1st and 15th of every month except December:
+--> H H 1,15 1-11 *

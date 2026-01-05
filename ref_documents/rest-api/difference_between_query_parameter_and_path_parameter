@@ -1,0 +1,38 @@
+Difference between query parameter and path parameter
+
+Path parameters and query parameters are both methods for passing data in a URL, but they serve different purposes and are structured differently.
+
+Path Parameters:
+
+Purpose:
+Path parameters are used to identify a specific resource within a collection. They are essential for uniquely identifying the resource you want to interact with.
+
+Location in URL:
+They are embedded directly within the URL path, typically enclosed in curly braces {} in API documentation or route definitions.
+
+Example:
+In /users/{userId}, userId is a path parameter. When you request /users/123, 123 is the value of the userId path parameter, identifying a specific user.
+
+Mandatory:
+Path parameters are generally mandatory for the request to be valid, as they are crucial for locating the intended resource.
+
+Query Parameters:
+
+Purpose:
+Query parameters are used to provide additional, optional information for filtering, sorting, pagination, or other customizations of the requested resource or collection.
+
+Location in URL:
+They appear after a question mark ? in the URL, following the path. Multiple query parameters are separated by an ampersand &. They are expressed as key-value pairs.
+
+Example:
+In /products?category=electronics&sort=price, category and sort are query parameters. category=electronics filters products by the 'electronics' category, and sort=price sorts them by price.
+
+Optional:
+Query parameters are typically optional. The API should still function correctly if they are omitted, although the returned data might not be filtered or sorted as desired.
+
+In summary:
+
+Path parameters:-
+are for identifying specific resources (e.g., a particular user or product).
+Query parameters:-
+are for modifying or refining a collection of resources (e.g., filtering a list of products, sorting results).

@@ -1,0 +1,58 @@
+postman newman cli command and options:
+
+Newman, the command-line collection runner for Postman, provides various options to customize collection runs and reporting.
+
+Core Options for Running Collections:
+
+-> newman run <collection_file_path>: Executes a Postman collection.
+
+-> -e <environment_file_path> or --environment <environment_file_path>: Specifies an
+   environment file (JSON) to use during the run.
+
+-> -g <globals_file_path> or --globals <globals_file_path>: Specifies a globals file (
+   JSON) to use during the run.
+
+-> -n <number_of_iterations> or --iteration-count <number_of_iterations>: Runs the
+   collection a specified number of times.
+
+-> -d <data_file_path> or --iteration-data <data_file_path>: Provides a data file (CSV or 
+   JSON) for data-driven testing.
+
+-> --folder <folder_name>: Runs only a specific folder within the collection.
+
+Variable Management Options:
+
+-> --global-var "<key>=<value>": Sets a global variable directly from the command line. 
+   Can be used multiple times for multiple variables.
+
+-> --env-var "<key>=<value>": Sets an environment variable directly from the command 
+   line. Can be used multiple times for multiple variables.
+
+Reporting Options:
+
+-> --reporters <reporter_names>: Specifies the reporters to use (e.g., cli, json, junit, 
+   html). Multiple reporters can be comma-separated.
+
+-> --reporter-cli-silent: Suppresses CLI output.
+
+-> --reporter-cli-show-timestamps: Displays timestamps for each request in CLI output.
+
+-> --reporter-cli-no-summary: Excludes the summary table from CLI output.
+
+-> --reporter-cli-no-failures: Excludes failure details from CLI output.
+
+-> --reporter-json-export <path>: Exports the JSON report to the specified path.
+
+-> --reporter-junit-export <path>: Exports the JUnit report to the specified path.
+
+-> --reporter-html-export <path>: Exports the HTML report to the specified
+
+Other Useful Options:
+
+-> --color <value>: Controls colored CLI output (on, off, auto).
+
+-> --verbose: Provides detailed information about the collection run and each request.
+
+Example Usage:
+
+newman run my_collection.json -e dev_environment.json -n 5 --delay-request 1000 --reporters cli,html --reporter-html-export reports/my_report.html

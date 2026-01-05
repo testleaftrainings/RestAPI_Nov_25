@@ -1,0 +1,45 @@
+transient keyword in java
+
+The transient keyword in Java is a field modifier that indicates a variable should be excluded from the default serialization process. When an object is serialized (converted into a byte stream for storage or transmission), the Java Virtual Machine (JVM) ignores fields marked as transient. 
+
+Purpose and Usage
+The primary purpose of the transient keyword is to control which parts of an object's state are persisted. 
+
+. Security: It is commonly used to prevent sensitive data, such as passwords, SSN, or authentication tokens, from being written to a file or transmitted over a network in plain text.
+
+. Performance and Efficiency: You can mark fields that are temporary, can be derived from other serialized fields, or are resource-intensive (like file handles or network sockets) as transient. This reduces the size of the serialized data and improves performance.
+
+. Handling Non-Serializable Fields: If a class implements Serializable but contains a reference to an object that does not implement Serializable (e.g., a Thread or a Logger instance), marking the non-serializable field as transient prevents a NotSerializableException during the serialization process. 
+
+How it Works
+When an object is deserialized (recreated from the byte stream), any field marked as transient is not restored from the saved data. Instead, it is initialized to its default value: 
+
+. For reference types (objects), the default value is null.
+. For primitive integral types (like int, long), the default value is 0.
+. For boolean, the default value is false. 
+
+Example
+In this example, the password and sessionToken will not be saved during serialization. 
+
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private String username;
+    private transient String password; // Will be ignored during serialization
+    private transient String sessionToken; // Will be ignored
+
+    public User(String username, String password, String sessionToken) {
+        this.username = username;
+        this.password = password;
+        this.sessionToken = sessionToken;
+    }
+    // Getters, setters, etc.
+}
+
+Key Considerations
+. The transient keyword only affects the default Java serialization mechanism (java.io.Serializable).
+. It is not applicable to methods or local variables, only instance fields.
+. It has no effect on static fields, as static fields are part of the class, not the object's state, 
+  and are never serialized by default anyway.
+. It can be used with the final keyword, but the behavior can be complex depending on how the final 
+  field is initialized (e.g., if it's a constant expression, its value might still be serialized). 

@@ -1,0 +1,27 @@
+notnullvalue hamcrest
+
+The Hamcrest matcher for checking that a value is not null is notNullValue(). It is part of the org.hamcrest.CoreMatchers or org.hamcrest.Matchers class, and is a shortcut for not(nullValue()). 
+
+Usage Examples
+
+You can use notNullValue() in a Hamcrest assertion like this: 
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
+// ... inside a test method
+Object myObject = new Object();
+assertThat(myObject, is(notNullValue()));
+
+The is() matcher is optional and primarily used for readability, making the assertion read more like an English sentence: "assertThat myObject, is notNullValue". The following are all equivalent: 
+
+. assertThat(myObject, is(notNullValue()));
+. assertThat(myObject, notNullValue());
+. assertThat(myObject, is(not(nullValue())));
+
+Type-Specific Matcher
+
+There is also a generic version that accepts a class type to help with type inference in generic code, although it functions identically: 
+
+assertThat(myObject, is(notNullValue(Object.class)));

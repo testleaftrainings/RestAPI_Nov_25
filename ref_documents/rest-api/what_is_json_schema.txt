@@ -1,0 +1,29 @@
+What is JSON Schema?
+
+JSON Schema is a declarative language, written in JSON itself, that defines the structure, constraints, and data types for other JSON data. It acts as a blueprint or contract for JSON documents, providing a standard way to validate and document data. 
+
+Key Purposes and Benefits:
+
+1. Data Validation: The primary use of JSON Schema is to ensure that JSON data adheres to a predefined set of rules, preventing errors and inconsistencies before the data is processed by an application.
+
+2. Documentation: A JSON Schema serves as clear, human-readable and machine-readable documentation, which improves collaboration among developers and stakeholders by defining expected data formats.
+
+3. API Data Integrity: It is widely used in web APIs (like those using OpenAPI and AsyncAPI specifications) to validate request and response bodies, ensuring data consistency when exchanging information between different systems.
+
+4. Code and Form Generation: Tools can use a JSON Schema to dynamically generate code, user interfaces, or input forms that conform to the specified structure and validation rules.
+
+5. Interoperability: Because the schema itself is just a JSON document, it is language-agnostic and can be used across almost all programming languages, which promotes seamless data exchange
+
+Core Concepts:
+
+A JSON Schema uses specific keywords to define rules and annotations. 
+
+--> type: Defines the expected data type (e.g., string, number, integer, object, array, boolean, null).
+
+--> properties: For objects, this keyword specifies the allowed keys (properties) and the schema that each property's value must follow.
+
+--> required: An array of strings that lists the property names that must be present in a JSON object for it to be considered valid.
+
+--> title and description: These keywords provide metadata to annotate the schema for documentation purposes, without imposing validation constraints.
+
+--> Constraints: Various keywords define constraints, such as minLength and maxLength for strings, minimum and maximum for numbers, and minItems and maxItems for arrays.

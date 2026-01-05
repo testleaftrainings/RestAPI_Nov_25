@@ -1,0 +1,34 @@
+For withBodyFile() method in wiremock java. Where we need to store json file?
+
+When using the "withBodyFile" method in WireMock in a Java project, the JSON file (or any other response body file) should be stored in the following location by default:
+
+src/test/resources/__files
+
+Explanation:
+
+src/test/resources:
+This is the standard location in Maven and Gradle projects for test resources, including configuration files, data files, and, in this case, WireMock response body files.
+
+__files:
+This specific directory name (__files with two underscores) is a convention enforced by WireMock. It's the default directory where WireMock looks for response body files when using withBodyFile.
+
+Example Usage:
+If you have a JSON file named my-response.json containing your desired response body, you would place it in src/test/resources/__files/my-response.json. Then, in your WireMock stubbing code, you would reference it like this:
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+stubFor(get(urlEqualTo("/api/data"))
+    .willReturn(aResponse()
+        .withStatus(200)
+        .withHeader("Content-Type", "application/json")
+        .withBodyFile("my-response.json")));
+
+Customizing the File Location:
+
+While src/test/resources/__files is the default, you can configure WireMock to look for files in a different directory if needed. This is typically done when initializing the WireMockServer instance:
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
+WireMockServer wireMockServer = new WireMockServer(wireMockConfig()
+    .usingFilesUnderDirectory("src/test/resources/my_custom_files_location"));

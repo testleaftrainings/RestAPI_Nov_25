@@ -1,0 +1,53 @@
+Why Framework is needed?
+
+- Remove to repetitive code
+- to improve automation script maintainability
+- re-usability (our test base grows)
+
+Selenium WebDriver (UI Automation)
+
+- Page Object Model (POM)
+
+- UI Page you have in your application you're going to create separate class for that
+- element action converted into method
+
+  enterUserName();
+  enterPassword();
+  clickLoginBtn();
+
+Service Object Model (SOM) - API Automation
+
+- Each and every service(endpoint) in your project you're going to create separate class
+- HTTP action for the particular service should be converted into the method
+- Each HTTP methods action based on the business logic
+- Create the object or extend the service class to the cucumber step definition class
+
+com.service.now.endpoints
+ |
+ |__ IncidentService (class)
+          |
+          |__ createIncident(String requestPayload); (methods) == post(String requestPayload);
+          |__ createIncident(File requestPayload); 
+          |__ createIncident(Object requestPayload); 
+          |__ createIncident();
+          |__ updateIncident(String requestPayload);
+          |__ updateIncident(File requestPayload);
+          |__ updateIncident(Object requestPayload);
+          |__ updateIncident();
+          |__ deleteIncident(String sysID);
+          |__ getIncident();
+          |__ getIncident(String sysID);
+
+
+com.jira.endpoints
+    |
+    |__ IssueService
+            |
+            |__ createIssue();          
+
+
+The idea behind SOM pattern is to encapsulate API requests and their associated business logic into set of reusable service object.
+
+Service Object Modal act as an abstraction layer between test script and Restassured library.
+
+Beneficiary of Service Object Model: Encapsulation, Reusability, Readability and Flexibility.

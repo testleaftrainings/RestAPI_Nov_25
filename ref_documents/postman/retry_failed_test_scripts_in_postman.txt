@@ -1,0 +1,38 @@
+Retrying failed test scripts in Postman can be achieved by implementing a retry mechanism within your test scripts, typically using postman.setNextRequest() and environment variables. This allows you to re-execute a request if its tests fail, based on a defined number of retries.
+Here's a general approach:
+Initialize a retry counter: In the Pre-request Script of your request, initialize an environment variable (e.g., retryCount) to 0 or
+This variable will track the number of retries for the current request.
+
+    if (!pm.environment.get("retryCount")) {
+        pm.environment.set("retryCount", 1);
+    }
+
+Implement retry logic in Tests: In the Tests tab of your request, after your assertions, check if the tests failed and if the retry count is below a maximum limit. If both conditions are met, increment the retryCount and use postman.setNextRequest() to re-run the same request.
+
+    const maxRetries = 3; // Define your maximum number of retries
+
+    // Example test (replace with your actual tests)
+    pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+    });
+
+    if (!pm.response.to.have.status(200) && parseInt(pm.environment.get("retryCount")) < maxRetries) {
+        let currentRetryCount = parseInt(pm.environment.get("retryCount"));
+        pm.environment.set("retryCount", currentRetryCount + 1);
+
+        // Optional: Add a delay before retrying
+        // setTimeout(function() {}, 2000); // 2-second delay
+
+        postman.setNextRequest(pm.info.requestName); // Re-run the current request
+    } else {
+        // If tests pass or max retries reached, clear the retry counter
+        pm.environment.unset("retryCount");
+    }
+
+Clear retry counter on success: Ensure that if the tests pass or the maximum number of retries is reached, the retryCount environment variable is reset or cleared to prevent it from affecting subsequent requests.
+
+Important Considerations:
+Infinite loops: Be careful with your retry conditions to avoid creating infinite loops if tests consistently fail. Define a clear maxRetries limit.
+Dependencies: If your requests have dependencies, ensure that retrying a single request doesn't disrupt the flow or state for other requests in your collection.
+Error handling: Consider how you want to handle failures after the maximum number of retries has been reached. You might want to log the failure or take other actions.
+Collection Runner: This retry logic works well when running requests individually or within a collection using the Collection Runner.

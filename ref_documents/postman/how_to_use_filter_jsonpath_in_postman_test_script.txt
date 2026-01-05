@@ -1,0 +1,71 @@
+how to use filter jsonpath in postman test script
+
+To filter JSON data using JSONPath in a Postman test script, you can leverage the jsonpath library, which is accessible within the Postman Sandbox environment. This allows you to extract specific parts of your response data based on complex filtering conditions.
+
+Here's how to use filter JSONPath in a Postman test script:
+
+-> Parse the JSON Response: First, obtain the JSON response body and parse it into  
+   a JavaScript object.
+
+const responseJson = pm.response.json();
+
+-> Apply JSONPath Filter: Use jsonpath.query() to apply your filter expression. The
+   jsonpath library is available in the Postman Sandbox.
+
+    const jsonpath = require('jsonpath'); // Import the jsonpath library
+
+    // Example JSONPath expression to filter an array of objects
+    // where a specific property (e.g., 'status') has a certain value (e.g., 'active')
+    const filteredData = jsonpath.query(responseJson, '$..items[?(@.status == "active")]');
+
+    // Another example: filter by multiple conditions
+    // const filteredData = jsonpath.query(responseJson, '$..users[?(@.age > 30 && @.city == "New York")]');
+
+a) responseJson: The parsed JSON object from your response.
+b) '$..items[?(@.status == "active")]': This is the JSONPath expression.
+   -> $..items: Selects all items arrays recursively within the JSON.
+   -> [?(@.status == "active")]: This is the filter expression. It selects elements 
+      within the items array where the status property equals "active".
+   -> @: Refers to the current element being evaluated in the filter.
+c) Perform Assertions or Further Processing: Once you have the filteredData, you can perform assertions on it using pm.expect() or use it for subsequent requests or environment variables.
+
+    pm.test("Filtered data contains expected number of active items", () => {
+        pm.expect(filteredData.length).to.be.above(0);
+    });
+
+    pm.test("First active item has correct status", () => {
+        if (filteredData.length > 0) {
+            pm.expect(filteredData[0].status).to.equal("active");
+        }
+    });
+
+    // To store a value from the filtered data in an environment variable:
+    if (filteredData.length > 0) {
+        pm.environment.set("firstActiveItemId", filteredData[0].id);
+    }
+
+// Get the JSON response body
+const responseJson = pm.response.json();
+
+// Import the jsonpath library
+const jsonpath = require('jsonpath');
+
+// Filter for items with status "active"
+const activeItems = jsonpath.query(responseJson, '$..items[?(@.status == "active")]');
+
+// Assertions on the filtered data
+pm.test("There are active items in the response", () => {
+    pm.expect(activeItems).to.be.an('array').and.to.have.length.above(0);
+});
+
+pm.test("All filtered items have 'active' status", () => {
+    activeItems.forEach(item => {
+        pm.expect(item.status).to.equal("active");
+    });
+});
+
+// Optionally, store a value from the filtered data
+if (activeItems.length > 0) {
+    pm.environment.set("firstActiveItemName", activeItems[0].name);
+}
+

@@ -1,0 +1,31 @@
+how to add two filter conditions in jsonpath
+
+To add multiple filter conditions in JSONPath, you can use logical operators within the filter expression. The most common logical operators are && for AND and || for OR.
+
+Here's how to apply them:
+
+$.items[?(@.property1 == 'value1' && @.property2 > 10)]
+
+In this example:
+
+-> $ refers to the root of the JSON document.
+-> .items selects an array named "items".
+-> [?()] indicates a filter expression applied to the elements of the "items" array.
+-> @ refers to the current element being evaluated within the array.
+-> @.property1 == 'value1' is the first condition, checking if property1 equals  
+   'value1'.
+-> && is the logical AND operator, requiring both conditions to be true.
+-> @.property2 > 10 is the second condition, checking if property2 is greater than 
+   10.
+
+This expression will return all objects within the "items" array where property1 is 'value1' AND property2 is greater than 10.
+
+You can also use || for an OR condition:
+
+$.items[?(@.property1 == 'value1' || @.property3 == 'value3')]
+
+This will return objects where property1 is 'value1' OR property3 is 'value3' (or both).
+
+Parentheses can be used for grouping and controlling the order of evaluation, similar to mathematical expressions:
+
+$.items[?((@.property1 == 'value1' && @.property2 > 10) || @.property3 == 'value3')]

@@ -1,0 +1,45 @@
+how to validate json array size in postman test script
+
+To validate the size of a JSON array in a Postman test script, you can access the array from the response body and then use its length property within a pm.expect() assertion.
+
+Here's how to do it: Parse the JSON response.
+
+First, parse the response body into a JavaScript object using pm.response.json().
+
+const jsonData = pm.response.json();
+
+Access the array:-
+
+Identify the specific array you want to validate within your jsonData object. For example, if your response is {"data": [1, 2, 3]} and you want to validate the data array:
+
+const myArray = jsonData.data;
+
+Validate the array size:
+
+Use pm.expect() with the length property of the array to assert its size.
+
+pm.test("Array 'data' should have a size of 3", function () {
+    pm.expect(myArray.length).to.equal(3);
+});
+
+You can use various chai assertions with pm.expect() for different validation scenarios:- 
+
+Exact size:
+
+pm.expect(myArray.length).to.equal(3);
+
+Minimum size:
+
+pm.expect(myArray.length).to.be.at.least(1);
+
+Size within a range:
+
+pm.expect(myArray.length).to.be.within(2, 4);
+
+Not empty:
+
+pm.expect(myArray).to.not.be.empty;
+
+empty:
+
+pm.expect(myArray).to.be.empty;
