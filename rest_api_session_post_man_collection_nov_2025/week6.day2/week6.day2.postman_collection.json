@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "674d2a49-d6c1-4146-8c2a-3c55590c7d38",
+		"name": "week6.day2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2257080"
+	},
+	"item": [
+		{
+			"name": "https://karthistestlab.atlassian.net/rest/api/3/project/REST1234",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{APITOKEN}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "karthis.testlab@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://karthistestlab.atlassian.net/rest/api/3/project/REST1234",
+					"protocol": "https",
+					"host": [
+						"karthistestlab",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"project",
+						"REST1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://karthistestlab.atlassian.net/rest/api/3/issuetype/project",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{APITOKEN}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "karthis.testlab@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://karthistestlab.atlassian.net/rest/api/3/issuetype/project?projectId=10001",
+					"protocol": "https",
+					"host": [
+						"karthistestlab",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issuetype",
+						"project"
+					],
+					"query": [
+						{
+							"key": "projectId",
+							"value": "10001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://karthistestlab.atlassian.net/rest/api/3/issue",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{APITOKEN}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "karthis.testlab@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"id\": \"10001\"\r\n        },\r\n        \"issuetype\": {\r\n            \"id\": \"10008\"\r\n        },\r\n        \"summary\": \"Bug ticket\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://karthistestlab.atlassian.net/rest/api/3/issue",
+					"protocol": "https",
+					"host": [
+						"karthistestlab",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://karthistestlab.atlassian.net/rest/api/3/issue/10042/attachments",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{APITOKEN}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "karthis.testlab@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Atlassian-Token",
+						"value": "no-check",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/KAVITHA/Downloads/WhatsApp Image 2025-12-16 at 10.11.58 AM.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://karthistestlab.atlassian.net/rest/api/3/issue/10042/attachments",
+					"protocol": "https",
+					"host": [
+						"karthistestlab",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"10042",
+						"attachments"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APITOKEN",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
